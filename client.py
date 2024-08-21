@@ -2,7 +2,8 @@ import struct
 from enlace import *
 import time
 
-serialName = "COM7"  # Nome da porta de comunicação
+#serialName = "/dev/cu.usbmodem101"  # Mudar conforme Sistema operacional e porta usada
+serialName = "COM7"  
 
 def main():
     try:
