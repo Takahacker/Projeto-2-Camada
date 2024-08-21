@@ -1,3 +1,4 @@
+import struct
 from enlace import *
 import time
 import numpy as np
@@ -30,7 +31,7 @@ def main():
             if nRx > 0:
                 print("Recebeu {} bytes".format(nRx))
                 # Converte o buffer de bytes para string binária
-                numero = converter._reverter_ieee_754(rxBuffer)  # Remova a decodificação para string
+                numero = struct.unpack('>f', rxBuffer)  # Remova a decodificação para string
                 print("Mensagem recebida:", numero)
                 numeros_recebidos.append(numero)
                 print("número armazenado")
