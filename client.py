@@ -16,6 +16,7 @@ def main():
         com1.sendData(b'00')
         print("byte de sacrfifício enviado")
         time.sleep(1)
+        converter = IEE754_Converter()
 
         # Lê os números do arquivo listaEnvio.txt com codificação UTF-8
         with open('listaEnvio.txt', 'r', encoding='utf-8') as file:
@@ -25,7 +26,7 @@ def main():
             numero = numero.strip()
             try:
                 numero_float = float(numero)  # Converte a string para float
-                ieee754_bytes = struct.pack('>f', numero_float)  # Converte para IEEE 754 em formato binário (big-endian float)
+                ieee754_bytes = converter.converter_para_ieee754(numero_float) # Converte para IEEE 754 em formato binário (big-endian float)
                 print(f"Enviando: {ieee754_bytes.hex()}")  # Exibe os bytes em formato hexadecimal para visualização
                 time.sleep(0.5)
                 com1.sendData(ieee754_bytes)  # Envia os bytes diretamente
