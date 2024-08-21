@@ -1,4 +1,3 @@
-import struct
 from enlace import *
 import time
 import numpy as np
