@@ -20,7 +20,7 @@ def main():
             numeros = file.readlines()
 
         soma = 0
-        timeout = False
+        timeout_flag = False
 
         for numero in numeros:
             numero = numero.strip()
@@ -51,13 +51,16 @@ def main():
 
         while com1.rx.getIsEmpty():
             if time.time() > timeout:  # Verifica se o tempo limite foi atingido
-                print("Timeout: Nenhuma resposta do server em 30 segundos.")
-                timeout = True
+                print("Timeout: Nenhuma resposta do server em 5 segundos.")
+                timeout_flag = True
                 break
             time.sleep(0.01)
 
-        if not timeout:
+        if not timeout_flag:
+            print("recebendo soma do server")
+            time.sleep(0.5)
             rxBuffer, nRx = com1.getData(4)
+            print("soma recebida")
             soma_server = struct.unpack('>f', rxBuffer)[0]
             print(f"Soma do server: {soma_server}")
 

@@ -23,7 +23,7 @@ def main():
         print("a espera acabou 🕰️")
         
         start_time = time.time()  # Inicia o contador de tempo
-        timeout = 5  # Timeout de 5 segundos para indicar o fim da transmissão
+        timeout = 1 # Timeout de 1 segundos para indicar o fim da transmissão
 
         while True:
             # Verifica se há bytes disponíveis para leitura
@@ -49,8 +49,8 @@ def main():
                     time.sleep(0.5)
                     com1.sendData(struct.pack('>f', soma))
                     print("Soma enviada ✅")
+                    time.sleep(0.5)
                     break
-                time.sleep(0.5)  # Aguarda meio segundo antes de tentar ler novamente
 
     except Exception as erro:
         print("ops! :-\\")
