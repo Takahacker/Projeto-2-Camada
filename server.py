@@ -12,7 +12,12 @@ def main():
         com1 = enlace(serialName)
         com1.enable()
         print("Abriu a comunicação")
-
+        
+        print("esperando 1 byte de sacrifício")
+        rxBuffer, nRx = com1.getData(1)
+        com1.rx.clearBuffer()
+        time.sleep(.1)
+        
         numeros_recebidos = []
         converter = IEE754_Converter()
         print("Okaaay lets go 🏎️ 🏁")
@@ -24,7 +29,8 @@ def main():
             rxBuffer, nRx = com1.getData(4) 
             if nRx > 0:
                 print("Recebeu {} bytes".format(nRx))
-                numero = converter._reverter_ieee_754(rxBuffer)
+                # Converte o buffer de bytes para string binária
+                numero = converter._reverter_ieee_754(rxBuffer)  # Remova a decodificação para string
                 print("Mensagem recebida:", numero)
                 numeros_recebidos.append(numero)
                 print("número armazenado")

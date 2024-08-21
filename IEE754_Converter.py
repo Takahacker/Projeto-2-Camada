@@ -124,22 +124,25 @@ class IEE754_Converter:
                 binario_mantissa += '0'
         return binario_mantissa
 
-    def _reverter_ieee_754(self, binario):
+    def _reverter_ieee_754(self, rxBuffer):
         """
         Reverte uma representação binária IEEE 754 para um número real.
         
         Parâmetros:
-        - binario: A representação binária IEEE 754 a ser revertida.
+        - rxBuffer: O buffer de bytes que contém a representação binária IEEE 754 a ser revertida.
         Retorna:
         - O número real correspondente à representação binária.
         """
+        # Converte o buffer de bytes para uma string binária
+        binario = ''.join(format(byte, '08b') for byte in rxBuffer)
+
         # Separa o binário em sinal, expoente e mantissa
         sinal = binario[0]
-        expoente = binario[1:12]
-        mantissa = binario[12:]
+        expoente = binario[1:9]  # 8 bits para o expoente em precisão simples
+        mantissa = binario[9:]    # 23 bits para a mantissa
 
         # Calcula o expoente real
-        expoente_real = int(expoente, 2) - 1023
+        expoente_real = int(expoente, 2) - 127  # Para precisão simples, o bias é 127
 
         # Calcula a mantissa real
         mantissa_real = 1 + sum([2**-i for i, bit in enumerate(mantissa) if bit == '1'])
