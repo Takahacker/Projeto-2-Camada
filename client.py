@@ -35,13 +35,14 @@ def main():
             numero_float = float(numero.strip())  # Converte a string para float
             ieee754 = converter.converter_para_ieee754(numero_float)  # Converte para IEEE 754
             print(f"Enviando: {ieee754}")
-            com1.sendData(ieee754.encode())  # Envia os dados convertidos
-
-        # Recebe a soma do servidor
-        txLen = 32  # Ajuste conforme necessário para o tamanho da soma
-        rxBuffer, nRx = com1.getData(txLen)
-        soma_recebida = rxBuffer.decode()  # Decodifica a soma recebida
-        print("Soma recebida do servidor:", soma_recebida)
+            time.sleep(0.5)
+            com1.sendData(ieee754)
+            print("numero enviado")  # Envia os dados convertidos
+            while com1.tx.threadMutex == True:
+                time.sleep(0.01)
+            txSize = com1.tx.getStatus()
+            print('enviou = {}' .format(txSize))
+        print("Todos os números foram enviados")
 
         # Encerra comunicação
         print("-------------------------")

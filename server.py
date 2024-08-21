@@ -1,40 +1,55 @@
 from enlace import *
 import time
 import numpy as np
+from IEE754_Converter import IEE754_Converter  # Importa a classe de conversão
 
-
-serialName = "/dev/cu.usbmodem2101"                  
-
+#Mudar de acordo com a entrada
+serialName = "/dev/cu.usbmodem101"                  
 
 def main():
     try:
         print("Iniciou o main")
-        #declaramos um objeto do tipo enlace com o nome "com". Essa é a camada inferior à aplicação. Observe que um parametro
-        #para declarar esse objeto é o nome da porta.
         com1 = enlace(serialName)
-        
-        # Ativa comunicacao. Inicia os threads e a comunicação seiral 
         com1.enable()
         print("Abriu a comunicação")
 
-        #acesso aos bytes recebidos
-        txLen = len("Mensagem")
-        rxBuffer, nRx = com1.getData(txLen)
-        print("recebeu {} bytes" .format(len(rxBuffer)))
-        print("Mensagem recebida:", rxBuffer.decode())
+        numeros_recebidos = []
+        converter = IEE754_Converter()
+        print("Okaaay lets go 🏎️ 🏁")
+        time.sleep(2)
+        print("a espera acabou 🕰️")
+        
+        start_time = time.time()  # Inicia o contador de tempo
+        while True:
+            rxBuffer, nRx = com1.getData(4) 
+            if nRx > 0:
+                print("Recebeu {} bytes".format(nRx))
+                numero = converter._reverter_ieee_754(rxBuffer)
+                print("Mensagem recebida:", numero)
+                numeros_recebidos.append(numero)
+                print("número armazenado")
+                print("números recebidos:", numeros_recebidos)
+                
+                start_time = time.time()  # Reinicia o contador após receber dados
 
-        # Encerra comunicação
-        print("-------------------------")
-        print("Comunicação encerrada")
-        print("-------------------------")
-        com1.disable()
+            else:
+                print("Nenhum dado recebido.")
+                # Verifica se passou 1 minuto
+                if time.time() - start_time > 60:
+                    print("Timeout: mais de 1 minuto sem receber dados.")
+                    break
+                time.sleep(0.5)  # Aguarda meio segundo antes de tentar receber novamente
 
     except Exception as erro:
         print("ops! :-\\")
         print(erro)
         com1.disable()
 
+    finally:
+        print("-------------------------")
+        print("Comunicação encerrada")
+        print("-------------------------")
+        com1.disable()
 
-    #so roda o main quando for executado do terminal ... se for chamado dentro de outro modulo nao roda
 if __name__ == "__main__":
     main()
