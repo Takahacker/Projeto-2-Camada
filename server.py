@@ -2,7 +2,8 @@ import struct
 from enlace import *
 import time
 
-serialName = "/dev/cu.usbmodem101"  # Mude conforme necessário
+serialName = "/dev/cu.usbmodem101"  # Mudar conforme Sistema operacional e porta usada
+#serialName = "COM7"  
 
 def main():
     try:
@@ -39,7 +40,15 @@ def main():
             else:
                 # Verifica se passou o tempo limite sem receber dados
                 if time.time() - start_time > timeout:
-                    print("Timeout: mais de 5 segundos sem receber dados. Fim da transmissão.")
+                    print("Timeout: mais de 5 segundos sem receber dados. Fim da transmissão. 🛑")
+                # Calculo da soma dos números recebidos
+                    soma = sum(numeros_recebidos)
+                    print(f"Soma dos números recebidos: {soma} 🤓")
+                    # Envia a soma dos números recebidos
+                    print("Enviando soma 🤔")
+                    time.sleep(0.5)
+                    com1.sendData(struct.pack('>f', soma))
+                    print("Soma enviada ✅")
                     break
                 time.sleep(0.5)  # Aguarda meio segundo antes de tentar ler novamente
 
@@ -49,7 +58,7 @@ def main():
 
     finally:
         print("-------------------------")
-        print("Comunicação encerrada")
+        print("🛑 Comunicação encerrada 🛑")
         print("-------------------------")
         com1.disable()
 
