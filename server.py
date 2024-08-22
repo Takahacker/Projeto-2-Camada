@@ -24,7 +24,7 @@ def main():
         print("a espera acabou 🕰️")
         
         start_time = time.time()  # Inicia o contador de tempo
-        timeout = 1 # Timeout de 1 segundos para indicar o fim da transmissão
+        timeout = 3 # Timeout de 3 segundos para indicar o fim da transmissão
 
         while True:
             # Verifica se há bytes disponíveis para leitura
@@ -41,9 +41,11 @@ def main():
             else:
                 # Verifica se passou o tempo limite sem receber dados
                 if time.time() - start_time > timeout:
-                    print("Timeout: mais de 5 segundos sem receber dados. Fim da transmissão. 🛑")
+                    print("Timeout: mais de 3 segundos sem receber dados. Fim da transmissão. 🛑")
                 # Calculo da soma dos números recebidos
-                    soma = sum(numeros_recebidos)
+                    soma = 0
+                    for numero in numeros_recebidos:
+                        soma += numero
                     print(f"Soma dos números recebidos: {soma} 🤓")
                     # Envia a soma dos números recebidos
                     print("Enviando soma 🤔")
