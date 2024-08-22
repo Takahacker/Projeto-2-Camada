@@ -64,9 +64,9 @@ def main():
             rxBuffer, nRx = com1.getData(4)
             print("soma recebida")
             soma_server = np.frombuffer(rxBuffer, dtype=np.float32)[0]
-            print(f"Soma do server: {soma_server}")
+            delta = abs(soma - soma_server)
 
-            if soma_server == soma:
+            if delta <= (0.01 * soma):
                 print("Soma correta")
                 joinha = """
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣦⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

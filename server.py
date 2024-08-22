@@ -3,7 +3,7 @@ import numpy as np
 from enlace import *
 import time
 
-serialName = "/dev/cu.usbmodem2101"  # Mudar conforme Sistema operacional e porta usada
+serialName = "/dev/cu.usbmodem101"  # Mudar conforme Sistema operacional e porta usada
 #serialName = "COM7"  
 
 def main():
@@ -45,10 +45,7 @@ def main():
                 # Calculo da soma dos números recebidos
                     soma = 0
                     for numero in numeros_recebidos:
-                        print(f"a soma atual é {soma}")
-                        print(f"vou somar {numero}")
                         soma += numero
-                        print(f"agora a soma é {soma}")
                     print(f"Soma dos números recebidos: {soma} 🤓")
                     # Envia a soma dos números recebidos
                     print("Enviando soma 🤔")
