@@ -3,7 +3,7 @@ import numpy as np
 from enlace import *
 import time
 
-serialName = "/dev/cu.usbmodem101"  # Mudar conforme Sistema operacional e porta usada
+serialName = "/dev/cu.usbmodem2101"  # Mudar conforme Sistema operacional e porta usada
 #serialName = "COM7"  
 
 def main():
