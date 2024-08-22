@@ -1,4 +1,5 @@
 import struct
+import numpy as np
 from enlace import *
 import time
 
@@ -30,7 +31,7 @@ def main():
             if com1.rx.getBufferLen() >= 4:  # Se há 4 ou mais bytes disponíveis no buffer
                 rxBuffer, nRx = com1.getData(4)
                 if nRx > 0:
-                    numero = struct.unpack('>f', rxBuffer)[0]
+                    numero = np.frombuffer(rxBuffer, dtype=np.float32)[0]
                     print(f"Mensagem recebida: {numero}")
                     numeros_recebidos.append(numero)
                     print("número armazenado")
@@ -47,7 +48,7 @@ def main():
                     # Envia a soma dos números recebidos
                     print("Enviando soma 🤔")
                     time.sleep(0.5)
-                    com1.sendData(struct.pack('>f', soma))
+                    com1.sendData(np.float32(soma))
                     print("Soma enviada ✅")
                     time.sleep(0.5)
                     break

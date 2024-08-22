@@ -1,4 +1,5 @@
 import struct
+import numpy as np
 from enlace import *
 import time
 
@@ -27,9 +28,9 @@ def main():
             numero = numero.strip()
             try:
                 numero_float = float(numero) # Converte a string para float
+                print(f"Enviando o número: {numero_float}")
                 soma += numero_float
-                ieee754_bytes = struct.pack('>f', numero_float)  # Converte para IEEE 754 em formato binário (big-endian float)
-                print(f"Enviando: {ieee754_bytes.hex()}")  # Exibe os bytes em formato hexadecimal para visualização
+                ieee754_bytes = np.float32(numero_float)  # Converte para IEEE 754 em formato binário (big-endian float)
                 time.sleep(0.5)
                 com1.sendData(ieee754_bytes)  # Envia os bytes diretamente
                 print("Número enviado")
@@ -62,7 +63,7 @@ def main():
             time.sleep(0.5)
             rxBuffer, nRx = com1.getData(4)
             print("soma recebida")
-            soma_server = struct.unpack('>f', rxBuffer)[0]
+            soma_server = np.frombuffer(rxBuffer, dtype=np.float32)[0]
             print(f"Soma do server: {soma_server}")
 
             if soma_server == soma:
@@ -83,6 +84,8 @@ def main():
                 """
                 print(joinha)
             else:
+                print("Soma incorreta")
+                print(f"Soma esperada: {soma}") 
                 negativo = """
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⡶⠶⣶⣦⣤⣶⣶⣶⣦⣤⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⢀⣴⡿⠋⢡⣴⣾⠿⠛⠉⠀⠀⠀⠈⢻⣇⠀⠀⠀⠀⠀⠀
@@ -104,8 +107,7 @@ def main():
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀
                 """
                 print(negativo)
-                print("Soma incorreta")
-                print(f"Soma esperada: {soma}") 
+
 
         # Encerra comunicação
         print("-------------------------")
